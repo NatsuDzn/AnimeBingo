@@ -1,11 +1,12 @@
-import { Center, Grid, Text, useMantineTheme } from "@mantine/core";
+import { Center, Grid, Image, Text } from "@mantine/core";
 import type { NextPage } from "next";
+import BingoImage from "../components/BingoImage";
+import { useBingo } from "../context/state";
 
 const Home: NextPage = () => {
-  const theme = useMantineTheme();
+  const { value } = useBingo();
 
-  const backgroundColor = theme.colors.gray[9];
-  const borderColor = theme.colors.gray[0];
+  const calculatedWidth = 150 * Math.sqrt(Number(value.styles.size));
 
   return (
     <Center>
@@ -13,40 +14,36 @@ const Home: NextPage = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          width: 150*3,
+          width: calculatedWidth,
           outline: "2px solid",
-          outlineColor: borderColor,
+          outlineColor: value.styles.borderColor,
         }}
       >
-        <Text
-          size="lg"
-          style={{ backgroundColor: backgroundColor, width: 150*3 }}
-          p={16}
-          weight="bold"
-          align="center"
-          lineClamp={1}
-          color={borderColor}
-        >
-          Anime bingo
-        </Text>
+        {value.styles.showTitles && (
+          <Text
+            size="lg"
+            style={{
+              backgroundColor: value.styles.backgroundColor,
+              width: calculatedWidth,
+            }}
+            p={16}
+            weight="bold"
+            align="center"
+            lineClamp={1}
+            color={value.styles.borderColor}
+          >
+            {value.styles.title}
+          </Text>
+        )}
         <Grid
           justify="center"
           align="center"
           gutter={0}
           columns={1}
-          style={{ maxWidth: 150 * 3 }}
+          style={{ maxWidth: calculatedWidth }}
         >
-          {[...Array(3 * 3)].map((_, i) => (
-            <div
-              key={i}
-              style={{
-                backgroundColor: backgroundColor,
-                height: "200px",
-                width: "150px",
-              }}
-            >
-              <Text color={borderColor}>{i + 1}</Text>
-            </div>
+          {[...Array(Number(value.styles.size))].map((_, i) => (
+            <BingoImage key={i} content={value.mediaList[i]}></BingoImage>
           ))}
         </Grid>
       </div>

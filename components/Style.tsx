@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   ColorInput,
   Group,
   Input,
@@ -11,10 +12,12 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { Tag } from "tabler-icons-react";
+import { useBingo } from "../context/state";
 
 function Style({ ...props }: any) {
-  const { colorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
+  const { colorScheme } = useMantineColorScheme();
+  const { updateStyles } = useBingo();
 
   const form = useForm({
     initialValues: {
@@ -22,11 +25,18 @@ function Style({ ...props }: any) {
       size: String(3 * 3),
       borderColor: theme.colors.gray[0],
       backgroundColor: theme.colors.gray[9],
+      showTitles: true,
+      showMediaTitles: true,
     },
   });
 
   return (
-    <form style={{ width: "100%" }}>
+    <form
+      style={{ width: "100%" }}
+      onSubmit={form.onSubmit(
+        (values) => (updateStyles(values), console.log(values))
+      )}
+    >
       <Group style={{ width: "100%" }}>
         <Group direction="row" style={{ width: "100%" }}>
           <Text size="xs">Title:</Text>
@@ -39,7 +49,10 @@ function Style({ ...props }: any) {
             {...form.getInputProps("title")}
           />
         </Group>
-        <Group direction="row" style={{ width: "100%", justifyContent: "space-between" }}>
+        <Group
+          direction="row"
+          style={{ width: "100%", justifyContent: "space-between" }}
+        >
           <Text size="xs">Size:</Text>
           <Select
             size="xs"
@@ -73,6 +86,19 @@ function Style({ ...props }: any) {
             {...form.getInputProps("backgroundColor")}
           />
         </Group>
+
+        <Group direction="column" style={{ width: "100%" }} mb={16}>
+          <Checkbox
+            label="Display bingo title"
+            size="xs"
+            {...form.getInputProps("showTitles", { type: "checkbox" })}
+          />
+          <Checkbox
+            label="Display media title"
+            size="xs"
+            {...form.getInputProps("showMediaTitles", { type: "checkbox" })}
+          />
+        </Group>
       </Group>
       <Button
         size="xs"
@@ -80,8 +106,16 @@ function Style({ ...props }: any) {
         onClick={() => {
           form.reset();
         }}
+        type="submit"
       >
         Reset
+      </Button>
+      <Button
+        size="xs"
+        variant={colorScheme === "dark" ? "default" : "filled"}
+        type="submit"
+      >
+        Debug
       </Button>
     </form>
   );

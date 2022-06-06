@@ -1,14 +1,19 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { ColorScheme, ColorSchemeProvider, MantineProvider } from "@mantine/core";
+import {
+  ColorScheme,
+  ColorSchemeProvider,
+  MantineProvider,
+} from "@mantine/core";
 import Layout from "../components/Layout/Layout";
 import { useState } from "react";
+import { BingoProvider } from "../context/state";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
   const [colorScheme, setColorScheme] = useState<ColorScheme>("dark");
   const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
   return (
     <>
@@ -20,17 +25,22 @@ export default function App(props: AppProps) {
         />
       </Head>
 
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{colorScheme}}
+      <ColorSchemeProvider
+        colorScheme={colorScheme}
+        toggleColorScheme={toggleColorScheme}
       >
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{ colorScheme }}
+        >
+          <BingoProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </BingoProvider>
         </MantineProvider>
-        </ColorSchemeProvider>
+      </ColorSchemeProvider>
     </>
   );
 }

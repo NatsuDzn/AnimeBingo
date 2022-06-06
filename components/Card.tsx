@@ -7,10 +7,12 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
+import { useBingo } from "../context/state";
 
 function Card({ content, ...props }: any) {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
+  const { pushMedia } = useBingo();
 
   return (
     <Paper
@@ -23,6 +25,7 @@ function Card({ content, ...props }: any) {
         backgroundColor:
           colorScheme === "dark" ? theme.colors.gray[9] : theme.colors.gray[1],
       }}
+      onClick={() => pushMedia(content)}
     >
       <Group align="start" direction="row" noWrap>
         <Image

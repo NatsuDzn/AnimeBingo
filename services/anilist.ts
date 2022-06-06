@@ -46,6 +46,7 @@ export const searchQuery = (keyword: string, type: string): string => {
                 }
                 coverImage {
                     medium
+                    large
                 }
                 startDate {
                   year

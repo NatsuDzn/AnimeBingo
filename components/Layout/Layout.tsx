@@ -18,11 +18,13 @@ import { Photo, Trash, X } from "tabler-icons-react";
 import NavbarHeading from "./Nav/NavbarHeading";
 import NavbarAccordion from "./Nav/NavbarAccordion";
 import SearchTitles from "./../Search";
+import { useBingo } from "../../context/state";
 
 const Layout = ({ children }: PropsWithChildren<{}>) => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { clearMediaList } = useBingo();
 
   return (
     <AppShell
@@ -73,6 +75,7 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
                 color="red"
                 variant={colorScheme === "dark" ? "light" : "filled"}
                 leftIcon={<Trash size={16} />}
+                onClick={() => clearMediaList()}
               >
                 Clear
               </Button>
