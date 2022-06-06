@@ -57,6 +57,7 @@ function Style({ ...props }: any) {
           <Select
             size="xs"
             data={[
+              { value: String(2 * 2), label: "2 X 2" },
               { value: String(3 * 3), label: "3 X 3" },
               { value: String(4 * 4), label: "4 X 4" },
               { value: String(5 * 5), label: "5 X 5" },

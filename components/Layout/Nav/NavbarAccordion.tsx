@@ -2,6 +2,7 @@ import { ThemeIcon, Accordion, Text } from "@mantine/core";
 import { randomId, useForceUpdate } from "@mantine/hooks";
 import { useState } from "react";
 import { Keyboard, Paint, Table } from "tabler-icons-react";
+import Selection from "../../Selection";
 import Style from "../../Style";
 
 function NavbarAccordion() {
@@ -15,7 +16,7 @@ const sectionList = [
     label: "Selections",
     icon: <Table size={iconSize} />,
     color: "green",
-    children: <Text>Selections component</Text>,
+    children: <Selection />,
   },
       {
     label: "Custom",
@@ -33,7 +34,7 @@ const sectionList = [
 
 
   return (
-    <Accordion disableIconRotation multiple={true} initialItem={0} key={key}>
+    <Accordion disableIconRotation multiple={true} initialItem={2} key={key}>
       {sectionList.map((section, index) => (
         <Accordion.Item
           key={index}

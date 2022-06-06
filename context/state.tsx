@@ -22,7 +22,7 @@ export function BingoProvider({ children }: Props) {
     borderColor: theme.colors.gray[0],
     backgroundColor: theme.colors.gray[9],
     showTitles: true,
-    showMediaTitles: true
+    showMediaTitles: true,
   });
   const [mediaList, setMediaList] = useState<any>([]);
 
@@ -37,18 +37,32 @@ export function BingoProvider({ children }: Props) {
     }
   };
 
+  const removeSelectedMedia = (index: number) => {
+    setMediaList(mediaList.filter((_: any, i: number) => i !== index));
+  };
+
   const clearMediaList = () => {
     setMediaList([]);
-  }
+  };
 
   const value = {
     styles,
     mediaList,
   };
-  
+
   return (
     <>
-      <BingoContext.Provider value={{value, updateStyles, pushMedia, clearMediaList}}>{children}</BingoContext.Provider>
+      <BingoContext.Provider
+        value={{
+          value,
+          updateStyles,
+          pushMedia,
+          clearMediaList,
+          removeSelectedMedia,
+        }}
+      >
+        {children}
+      </BingoContext.Provider>
     </>
   );
 }
