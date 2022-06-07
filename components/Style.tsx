@@ -3,7 +3,6 @@ import {
   Checkbox,
   ColorInput,
   Group,
-  Input,
   Select,
   Text,
   TextInput,
@@ -17,7 +16,7 @@ import { useBingo } from "../context/state";
 function Style({ ...props }: any) {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
-  const { updateStyles } = useBingo();
+  const { value, updateStyles } = useBingo();
 
   const form = useForm({
     initialValues: {
@@ -34,7 +33,7 @@ function Style({ ...props }: any) {
     <form
       style={{ width: "100%" }}
       onSubmit={form.onSubmit(
-        (values) => (updateStyles(values), console.log(values))
+        (values) => updateStyles(values)
       )}
     >
       <Group style={{ width: "100%" }}>
@@ -46,7 +45,8 @@ function Style({ ...props }: any) {
             icon={<Tag size={14} />}
             placeholder="Bingo title..."
             style={{ flex: 1 }}
-            {...form.getInputProps("title")}
+            value={value.styles.title}
+            onChange={(e) => updateStyles({ title: e.target.value })}
           />
         </Group>
         <Group
@@ -64,7 +64,8 @@ function Style({ ...props }: any) {
               { value: String(6 * 6), label: "6 X 6" },
               { value: String(7 * 7), label: "7 X 7" },
             ]}
-            {...form.getInputProps("size")}
+            value={value.styles.size}
+            onChange={(size: string) => updateStyles({ size })}
             variant={colorScheme === "dark" ? "default" : "filled"}
             style={{ width: "64px" }}
           />
@@ -75,7 +76,8 @@ function Style({ ...props }: any) {
             variant={colorScheme === "dark" ? "default" : "filled"}
             defaultValue="#C5D899"
             style={{ flex: 1 }}
-            {...form.getInputProps("borderColor")}
+            value={value.styles.borderColor}
+            onChange={(borderColor: string) => updateStyles({ borderColor })}
           />
         </Group>
         <Group direction="row" style={{ width: "100%" }}>
@@ -84,7 +86,10 @@ function Style({ ...props }: any) {
             variant={colorScheme === "dark" ? "default" : "filled"}
             defaultValue="#C5D899"
             style={{ flex: 1 }}
-            {...form.getInputProps("backgroundColor")}
+            value={value.styles.backgroundColor}
+            onChange={(backgroundColor: string) =>
+              updateStyles({ backgroundColor })
+            }
           />
         </Group>
 
@@ -92,12 +97,16 @@ function Style({ ...props }: any) {
           <Checkbox
             label="Display bingo title"
             size="xs"
-            {...form.getInputProps("showTitles", { type: "checkbox" })}
+            checked={value.styles.showTitles}
+            onChange={(e) => updateStyles({ showTitles: e.target.checked })}
           />
           <Checkbox
             label="Display media title"
             size="xs"
-            {...form.getInputProps("showMediaTitles", { type: "checkbox" })}
+            checked={value.styles.showMediaTitles}
+            onChange={(e) =>
+              updateStyles({ showMediaTitles: e.target.checked })
+            }
           />
         </Group>
       </Group>
@@ -110,13 +119,6 @@ function Style({ ...props }: any) {
         type="submit"
       >
         Reset
-      </Button>
-      <Button
-        size="xs"
-        variant={colorScheme === "dark" ? "default" : "filled"}
-        type="submit"
-      >
-        Debug
       </Button>
     </form>
   );

@@ -1,15 +1,34 @@
-import { Center, Grid, Image, Text } from "@mantine/core";
+import { Alert, Button, Center, Grid, Text } from "@mantine/core";
 import type { NextPage } from "next";
+import { InfoCircle } from "tabler-icons-react";
 import BingoImage from "../components/BingoImage";
 import { useBingo } from "../context/state";
 
 const Home: NextPage = () => {
-  const { value } = useBingo();
+  const { value, restoreBackup } = useBingo();
 
   const calculatedWidth = 150 * Math.sqrt(Number(value.styles.size));
 
   return (
-    <Center>
+    <Center style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      {/* Should check if it has been restored at least once */}
+      {value.backup.backupExist && (
+        <Alert
+          icon={<InfoCircle size={16} />}
+          color="blue"
+          styles={{ wrapper: { alignItems: "center" } }}
+        >
+          A backup of your bingo has been detected, do you want to restore it?
+          <Button
+            ml={16}
+            onClick={() => {
+              restoreBackup();
+            }}
+          >
+            Restore
+          </Button>
+        </Alert>
+      )}
       <div
         style={{
           display: "flex",

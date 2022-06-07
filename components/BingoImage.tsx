@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Badge,
   Center,
   Image,
@@ -6,12 +7,16 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
+import { useState } from "react";
+import { X } from "tabler-icons-react";
 import { useBingo } from "../context/state";
+import CustomBadge from "./CustomBadge";
 
-function BingoImage({ content = null, ...props }: any) {
+function BingoImage({ content = null, index, ...props }: any) {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
-  const { value } = useBingo();
+  const { value, removeSelectedMedia } = useBingo();
+  const [isHovered, setIsHover] = useState(false);
 
   return (
     <div>
@@ -28,6 +33,7 @@ function BingoImage({ content = null, ...props }: any) {
             outline: "2px solid",
             outlineColor: value.styles.borderColor,
           }}
+          {...props}
         ></div>
       ) : (
         <div
@@ -35,7 +41,10 @@ function BingoImage({ content = null, ...props }: any) {
             position: "relative",
             outline: "2px solid",
             outlineColor: value.styles.borderColor,
-          }}
+            }}
+            onPointerMove={() => setIsHover(true)}
+            onPointerOut={() => setIsHover(false)}
+            {...props}
         >
           <Image
             width={150}
@@ -43,27 +52,23 @@ function BingoImage({ content = null, ...props }: any) {
             fit="cover"
             alt={content.title.userPreferred}
             src={content.coverImage.large}
-            ></Image>
-            {value.styles.showMediaTitles && (              
-          <Center>
-            <Badge
-              size="lg"
+          ></Image>
+
+            {isHovered && (
+            <ActionIcon
+              style={{ position: "absolute", top: 8, right: 8 }}
               variant="filled"
-              style={{
-                position: "absolute",
-                bottom: 16,
-                backgroundColor: "#00000025",
-                backdropFilter: "blur(16px)",
-                maxWidth: 120,
-                whiteSpace: "break-spaces"
-              }}
+              color="red"
+              onClick={() => removeSelectedMedia(content.id)}
             >
-              <Text style={{ fontSize: 10 }}>
-                {content.title.userPreferred}
-              </Text>
-            </Badge>
-          </Center>
-        )}
+              <X size={14}></X>
+            </ActionIcon>
+          )}
+          {value.styles.showMediaTitles && (
+              <Center>
+                <CustomBadge title={content.title.userPreferred} />
+            </Center>
+          )}
         </div>
       )}
     </div>

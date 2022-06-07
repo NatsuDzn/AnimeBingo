@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Badge,
   Group,
   Title,
   useMantineTheme,
@@ -12,7 +13,10 @@ const NavbarHeading = ({ toggleColorScheme, title }: any) => {
 
   return (
     <>
-      <Title order={4}>{title}</Title>
+      <Group spacing={8}>
+        <Title order={4}>{title}</Title>
+        <Badge size="xs" color="yellow">WIP</Badge>
+      </Group>
       <Group>
         <ActionIcon
           variant="default"

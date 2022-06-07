@@ -7,12 +7,16 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
+import { Check, Checkbox, Checklist } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 
 function Card({ content, ...props }: any) {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
-  const { pushMedia } = useBingo();
+  const { value, pushMedia } = useBingo();
+
+  // Check if content is present in value medialist array using the id
+  const isIncluded = value.mediaList.some((media: any) => media.id === content.id);
 
   return (
     <Paper
@@ -54,6 +58,17 @@ function Card({ content, ...props }: any) {
           <Text size="sm" color="gray">
             {content.staff.nodes[0]?.name.full ?? "Staff not found"}
           </Text>
+          {isIncluded && (
+            <Badge
+              leftSection={<Checkbox size={14}/> }
+              color="green"
+              mt={6}
+              variant={colorScheme === "dark" ? "light" : "filled"}
+              styles={{leftSection: {display: "flex"}}}
+            >
+              {isIncluded ? "Added" : null}
+            </Badge>
+          )}
         </Group>
       </Group>
     </Paper>

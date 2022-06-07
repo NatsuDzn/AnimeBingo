@@ -12,8 +12,6 @@ function Selection({ content = null, ...props }: any) {
   const { value, removeSelectedMedia } = useBingo();
   const { colorScheme } = useMantineColorScheme();
 
-  console.log(value);
-
   return (
     <Group direction="column">
 
@@ -31,7 +29,7 @@ function Selection({ content = null, ...props }: any) {
           <ActionIcon
             variant={colorScheme === "dark" ? "light" : "filled"}
             color="red"
-            onClick={() => removeSelectedMedia(index)}
+            onClick={() => removeSelectedMedia(media.id)}
           >
             <Trash size={14}></Trash>
           </ActionIcon>

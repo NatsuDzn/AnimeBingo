@@ -14,11 +14,15 @@ import {
   Anchor,
   Divider,
 } from "@mantine/core";
-import { Photo, Trash, X } from "tabler-icons-react";
+import {
+  Photo,
+  Trash,
+} from "tabler-icons-react";
 import NavbarHeading from "./Nav/NavbarHeading";
 import NavbarAccordion from "./Nav/NavbarAccordion";
 import SearchTitles from "./../Search";
 import { useBingo } from "../../context/state";
+import BackupRestore from "./Nav/BackupRestore";
 
 const Layout = ({ children }: PropsWithChildren<{}>) => {
   const theme = useMantineTheme();
@@ -80,6 +84,7 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
                 Clear
               </Button>
             </Group>
+            <BackupRestore />
           </Navbar.Section>
         </Navbar>
       }

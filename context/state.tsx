@@ -1,5 +1,11 @@
 import { useMantineTheme } from "@mantine/core";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const BingoContext = createContext<any>({
   styles: {},
@@ -25,6 +31,8 @@ export function BingoProvider({ children }: Props) {
     showMediaTitles: true,
   });
   const [mediaList, setMediaList] = useState<any>([]);
+  const [backupExist, setBackupExist] = useState<boolean>(false);
+  const [backup, setBackup] = useState<any>(null);
 
   const updateStyles = (newStyles: any) => {
     setStyles({ ...styles, ...newStyles });
@@ -37,18 +45,56 @@ export function BingoProvider({ children }: Props) {
     }
   };
 
-  const removeSelectedMedia = (index: number) => {
-    setMediaList(mediaList.filter((_: any, i: number) => i !== index));
+  const removeSelectedMedia = (id: number) => {
+    setMediaList(mediaList.filter((m: any) => m.id !== id));
   };
 
   const clearMediaList = () => {
     setMediaList([]);
   };
 
+  const checkBackup = () => {
+    if (typeof window !== "undefined") {
+      const backup = window.localStorage.getItem("backup");
+      setBackupExist(backup !== null);
+      setBackup(JSON.parse(backup || "{}"));
+    }
+  };
+
+  const backupBingo = () => {
+    localStorage.setItem(
+      "backup",
+      JSON.stringify({
+        list: value.mediaList,
+        style: value.styles,
+        date: new Date().getTime(),
+      })
+    );
+    checkBackup();
+  };
+
+  const deleteBackup = () => {
+    localStorage.removeItem("backup");
+    checkBackup();
+  };
+
+  const restoreBackup = () => {
+    setStyles(backup.style);
+    setMediaList(backup.list);
+  }
+
   const value = {
     styles,
     mediaList,
+    backup: {
+      backupExist,
+      ...backup,
+    },
   };
+
+  useEffect(() => {
+    checkBackup();
+  }, [backupExist]);
 
   return (
     <>
@@ -59,6 +105,9 @@ export function BingoProvider({ children }: Props) {
           pushMedia,
           clearMediaList,
           removeSelectedMedia,
+          backupBingo,
+          deleteBackup,
+          restoreBackup,
         }}
       >
         {children}
