@@ -71,6 +71,7 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
                 color="green"
                 variant={colorScheme === "dark" ? "light" : "filled"}
                 leftIcon={<Photo size={16} />}
+                onClick={() => bingoMethods.saveDivAsImage(document.querySelector(".bingo-table"), "bingo.png")}
               >
                 Save bingo
               </Button>

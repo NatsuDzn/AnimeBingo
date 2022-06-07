@@ -1,4 +1,5 @@
 import { useMantineTheme } from "@mantine/core";
+import domtoimage from "dom-to-image";
 import {
   createContext,
   ReactNode,
@@ -33,6 +34,16 @@ export function BingoProvider({ children }: Props) {
   const [mediaList, setMediaList] = useState<any>([]);
   const [backupExist, setBackupExist] = useState<boolean>(false);
   const [backup, setBackup] = useState<any>(null);
+
+  const downloadImage = (blob: any, fileName: any) => {
+    const fakeLink = window.document.createElement("a");
+    fakeLink.download = fileName;
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
   const bingoMethods = {
     updateStyles: (newStyles: any) => {
@@ -76,6 +87,18 @@ export function BingoProvider({ children }: Props) {
       setStyles(backup.style);
       setMediaList(backup.list);
     },
+    saveDivAsImage: async (element: any, imageFileName: any) => {
+      domtoimage
+        .toPng(element, { cacheBust: true })
+        .then(function (dataUrl) {
+          var img = new Image();
+          img.src = dataUrl;
+          downloadImage(dataUrl, imageFileName);
+        })
+        .catch(function (error) {
+          console.error("oops, something went wrong!", error);
+        });
+    },
   };
 
   const value = {
@@ -90,7 +113,6 @@ export function BingoProvider({ children }: Props) {
   useEffect(() => {
     bingoMethods.checkBackup();
     console.log("ok");
-    
   }, [backupExist]);
 
   return (
@@ -98,7 +120,7 @@ export function BingoProvider({ children }: Props) {
       <BingoContext.Provider
         value={{
           value,
-          bingoMethods
+          bingoMethods,
         }}
       >
         {children}

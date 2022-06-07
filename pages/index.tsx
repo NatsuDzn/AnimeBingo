@@ -30,6 +30,7 @@ const Home: NextPage = () => {
         </Alert>
       )}
       <div
+        className="bingo-table"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -43,7 +44,7 @@ const Home: NextPage = () => {
             size="lg"
             style={{
               backgroundColor: value.styles.backgroundColor,
-              width: calculatedWidth,
+              maxWidth: calculatedWidth,
             }}
             p={16}
             weight="bold"

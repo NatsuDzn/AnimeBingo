@@ -26,6 +26,7 @@ function BackupRestore({}: any) {
       </Button>
       <Tooltip
         label={new Date(value.backup.date).toLocaleString()}
+        disabled={!value.backup.date}
         position="top"
         placement="center"
         gutter={10}

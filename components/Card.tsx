@@ -28,6 +28,7 @@ function Card({ content, ...props }: any) {
         width: "100%",
         backgroundColor:
           colorScheme === "dark" ? theme.colors.gray[9] : theme.colors.gray[1],
+        cursor: "pointer",
       }}
       onClick={() => bingoMethods.pushMedia(content)}
     >
