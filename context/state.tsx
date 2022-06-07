@@ -58,6 +58,12 @@ export function BingoProvider({ children }: Props) {
     removeSelectedMedia: (id: number) => {
       setMediaList(mediaList.filter((m: any) => m.id !== id));
     },
+    moveMedia: (source: number, destination: number) => {
+      const newMediaList = [...mediaList];
+      const [removed] = newMediaList.splice(source, 1);
+      newMediaList.splice(destination, 0, removed);
+      setMediaList(newMediaList);
+    },
     clearMediaList: () => {
       setMediaList([]);
     },
