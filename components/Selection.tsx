@@ -9,7 +9,7 @@ import { Trash } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 
 function Selection({ content = null, ...props }: any) {
-  const { value, removeSelectedMedia } = useBingo();
+  const { value, bingoMethods } = useBingo();
   const { colorScheme } = useMantineColorScheme();
 
   return (
@@ -29,7 +29,7 @@ function Selection({ content = null, ...props }: any) {
           <ActionIcon
             variant={colorScheme === "dark" ? "light" : "filled"}
             color="red"
-            onClick={() => removeSelectedMedia(media.id)}
+            onClick={() => bingoMethods.removeSelectedMedia(media.id)}
           >
             <Trash size={14}></Trash>
           </ActionIcon>

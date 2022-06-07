@@ -4,7 +4,7 @@ import { useBingo } from "../../../context/state";
 
 function BackupRestore({}: any) {
   const { colorScheme } = useMantineColorScheme();
-  const { value, backupBingo, deleteBackup, restoreBackup } = useBingo();
+  const { value, bingoMethods } = useBingo();
   
   return (
     <Group
@@ -20,7 +20,7 @@ function BackupRestore({}: any) {
         leftIcon={<DeviceFloppy size={16} />}
         style={{ flex: 1 }}
         disabled={value.mediaList.length === 0}
-        onClick={() => backupBingo()}
+        onClick={() => bingoMethods.backupBingo()}
       >
         Backup
       </Button>
@@ -35,7 +35,7 @@ function BackupRestore({}: any) {
           color="teal"
           variant={colorScheme === "dark" ? "light" : "filled"}
           leftIcon={<RotateClockwise size={16} />}
-          onClick={() => restoreBackup()}
+          onClick={() => bingoMethods.restoreBackup()}
           disabled={!value.backup.backupExist}
         >
           Restore
@@ -46,7 +46,7 @@ function BackupRestore({}: any) {
         color="orange"
         variant={colorScheme === "dark" ? "light" : "filled"}
         leftIcon={<Trash size={16} />}
-        onClick={() => deleteBackup()}
+        onClick={() => bingoMethods.deleteBackup()}
         disabled={!value.backup.backupExist}
       >
         Delete

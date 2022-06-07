@@ -7,13 +7,13 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { Check, Checkbox, Checklist } from "tabler-icons-react";
+import { Checkbox } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 
 function Card({ content, ...props }: any) {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
-  const { value, pushMedia } = useBingo();
+  const { value, bingoMethods } = useBingo();
 
   // Check if content is present in value medialist array using the id
   const isIncluded = value.mediaList.some((media: any) => media.id === content.id);
@@ -29,7 +29,7 @@ function Card({ content, ...props }: any) {
         backgroundColor:
           colorScheme === "dark" ? theme.colors.gray[9] : theme.colors.gray[1],
       }}
-      onClick={() => pushMedia(content)}
+      onClick={() => bingoMethods.pushMedia(content)}
     >
       <Group align="start" direction="row" noWrap>
         <Image

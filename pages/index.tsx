@@ -5,7 +5,7 @@ import BingoImage from "../components/BingoImage";
 import { useBingo } from "../context/state";
 
 const Home: NextPage = () => {
-  const { value, restoreBackup } = useBingo();
+  const { value, bingoMethods } = useBingo();
 
   const calculatedWidth = 150 * Math.sqrt(Number(value.styles.size));
 
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
           <Button
             ml={16}
             onClick={() => {
-              restoreBackup();
+              bingoMethods.restoreBackup();
             }}
           >
             Restore

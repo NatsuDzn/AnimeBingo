@@ -16,7 +16,7 @@ import { useBingo } from "../context/state";
 function Style({ ...props }: any) {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
-  const { value, updateStyles } = useBingo();
+  const { value, bingoMethods } = useBingo();
 
   const form = useForm({
     initialValues: {
@@ -33,7 +33,7 @@ function Style({ ...props }: any) {
     <form
       style={{ width: "100%" }}
       onSubmit={form.onSubmit(
-        (values) => updateStyles(values)
+        (values) => bingoMethods.updateStyles(values)
       )}
     >
       <Group style={{ width: "100%" }}>
@@ -46,7 +46,7 @@ function Style({ ...props }: any) {
             placeholder="Bingo title..."
             style={{ flex: 1 }}
             value={value.styles.title}
-            onChange={(e) => updateStyles({ title: e.target.value })}
+            onChange={(e) => bingoMethods.updateStyles({ title: e.target.value })}
           />
         </Group>
         <Group
@@ -65,7 +65,7 @@ function Style({ ...props }: any) {
               { value: String(7 * 7), label: "7 X 7" },
             ]}
             value={value.styles.size}
-            onChange={(size: string) => updateStyles({ size })}
+            onChange={(size: string) => bingoMethods.updateStyles({ size })}
             variant={colorScheme === "dark" ? "default" : "filled"}
             style={{ width: "64px" }}
           />
@@ -77,7 +77,7 @@ function Style({ ...props }: any) {
             defaultValue="#C5D899"
             style={{ flex: 1 }}
             value={value.styles.borderColor}
-            onChange={(borderColor: string) => updateStyles({ borderColor })}
+            onChange={(borderColor: string) => bingoMethods.updateStyles({ borderColor })}
           />
         </Group>
         <Group direction="row" style={{ width: "100%" }}>
@@ -88,7 +88,7 @@ function Style({ ...props }: any) {
             style={{ flex: 1 }}
             value={value.styles.backgroundColor}
             onChange={(backgroundColor: string) =>
-              updateStyles({ backgroundColor })
+              bingoMethods.updateStyles({ backgroundColor })
             }
           />
         </Group>
@@ -98,14 +98,14 @@ function Style({ ...props }: any) {
             label="Display bingo title"
             size="xs"
             checked={value.styles.showTitles}
-            onChange={(e) => updateStyles({ showTitles: e.target.checked })}
+            onChange={(e) => bingoMethods.updateStyles({ showTitles: e.target.checked })}
           />
           <Checkbox
             label="Display media title"
             size="xs"
             checked={value.styles.showMediaTitles}
             onChange={(e) =>
-              updateStyles({ showMediaTitles: e.target.checked })
+              bingoMethods.updateStyles({ showMediaTitles: e.target.checked })
             }
           />
         </Group>

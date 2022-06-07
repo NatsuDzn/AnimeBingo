@@ -28,7 +28,7 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const { clearMediaList } = useBingo();
+  const { bingoMethods } = useBingo();
 
   return (
     <AppShell
@@ -79,7 +79,7 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
                 color="red"
                 variant={colorScheme === "dark" ? "light" : "filled"}
                 leftIcon={<Trash size={16} />}
-                onClick={() => clearMediaList()}
+                onClick={() => bingoMethods.clearMediaList()}
               >
                 Clear
               </Button>

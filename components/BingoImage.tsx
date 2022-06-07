@@ -1,9 +1,7 @@
 import {
   ActionIcon,
-  Badge,
   Center,
   Image,
-  Text,
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
@@ -15,7 +13,7 @@ import CustomBadge from "./CustomBadge";
 function BingoImage({ content = null, index, ...props }: any) {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
-  const { value, removeSelectedMedia } = useBingo();
+  const { value, bingoMethods } = useBingo();
   const [isHovered, setIsHover] = useState(false);
 
   return (
@@ -59,7 +57,7 @@ function BingoImage({ content = null, index, ...props }: any) {
               style={{ position: "absolute", top: 8, right: 8 }}
               variant="filled"
               color="red"
-              onClick={() => removeSelectedMedia(content.id)}
+              onClick={() => bingoMethods.removeSelectedMedia(content.id)}
             >
               <X size={14}></X>
             </ActionIcon>

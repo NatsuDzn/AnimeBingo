@@ -34,54 +34,49 @@ export function BingoProvider({ children }: Props) {
   const [backupExist, setBackupExist] = useState<boolean>(false);
   const [backup, setBackup] = useState<any>(null);
 
-  const updateStyles = (newStyles: any) => {
-    setStyles({ ...styles, ...newStyles });
+  const bingoMethods = {
+    updateStyles: (newStyles: any) => {
+      setStyles({ ...styles, ...newStyles });
+    },
+    pushMedia: (media: any) => {
+      // If media doesn't already exist in medialist push new media
+      if (!mediaList.find((m: any) => m.id === media.id)) {
+        setMediaList([...mediaList, media]);
+      }
+    },
+    removeSelectedMedia: (id: number) => {
+      setMediaList(mediaList.filter((m: any) => m.id !== id));
+    },
+    clearMediaList: () => {
+      setMediaList([]);
+    },
+    checkBackup: () => {
+      if (typeof window !== "undefined") {
+        const backup = window.localStorage.getItem("backup");
+        setBackupExist(backup !== null);
+        setBackup(JSON.parse(backup || "{}"));
+      }
+    },
+    backupBingo: () => {
+      localStorage.setItem(
+        "backup",
+        JSON.stringify({
+          list: value.mediaList,
+          style: value.styles,
+          date: new Date().getTime(),
+        })
+      );
+      bingoMethods.checkBackup();
+    },
+    deleteBackup: () => {
+      localStorage.removeItem("backup");
+      bingoMethods.checkBackup();
+    },
+    restoreBackup: () => {
+      setStyles(backup.style);
+      setMediaList(backup.list);
+    },
   };
-
-  const pushMedia = (media: any) => {
-    // If media doesn't already exist in medialist push new media
-    if (!mediaList.find((m: any) => m.id === media.id)) {
-      setMediaList([...mediaList, media]);
-    }
-  };
-
-  const removeSelectedMedia = (id: number) => {
-    setMediaList(mediaList.filter((m: any) => m.id !== id));
-  };
-
-  const clearMediaList = () => {
-    setMediaList([]);
-  };
-
-  const checkBackup = () => {
-    if (typeof window !== "undefined") {
-      const backup = window.localStorage.getItem("backup");
-      setBackupExist(backup !== null);
-      setBackup(JSON.parse(backup || "{}"));
-    }
-  };
-
-  const backupBingo = () => {
-    localStorage.setItem(
-      "backup",
-      JSON.stringify({
-        list: value.mediaList,
-        style: value.styles,
-        date: new Date().getTime(),
-      })
-    );
-    checkBackup();
-  };
-
-  const deleteBackup = () => {
-    localStorage.removeItem("backup");
-    checkBackup();
-  };
-
-  const restoreBackup = () => {
-    setStyles(backup.style);
-    setMediaList(backup.list);
-  }
 
   const value = {
     styles,
@@ -93,7 +88,9 @@ export function BingoProvider({ children }: Props) {
   };
 
   useEffect(() => {
-    checkBackup();
+    bingoMethods.checkBackup();
+    console.log("ok");
+    
   }, [backupExist]);
 
   return (
@@ -101,13 +98,7 @@ export function BingoProvider({ children }: Props) {
       <BingoContext.Provider
         value={{
           value,
-          updateStyles,
-          pushMedia,
-          clearMediaList,
-          removeSelectedMedia,
-          backupBingo,
-          deleteBackup,
-          restoreBackup,
+          bingoMethods
         }}
       >
         {children}
