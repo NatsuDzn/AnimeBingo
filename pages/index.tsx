@@ -1,4 +1,12 @@
-import { Alert, Button, Center, Grid, Text } from "@mantine/core";
+import {
+  Alert,
+  Button,
+  Center,
+  Grid,
+  Group,
+  Text,
+  Transition,
+} from "@mantine/core";
 import type { NextPage } from "next";
 import { InfoCircle } from "tabler-icons-react";
 import BingoImage from "../components/BingoImage";
@@ -14,21 +22,54 @@ const Home: NextPage = () => {
       {/* Should check if it has been restored at least once */}
       {value.backup.backupExist && (
         <Alert
+          title="Informations"
           icon={<InfoCircle size={16} />}
           color="blue"
           styles={{ wrapper: { alignItems: "center" } }}
         >
-          A backup of your bingo has been detected, do you want to restore it?
-          <Button
-            ml={16}
-            onClick={() => {
-              bingoMethods.restoreBackup();
-            }}
-          >
-            Restore
-          </Button>
+          <Group direction="row">
+            <Text size="sm">
+              A backup of your bingo has been detected, do you want to restore
+              it?
+            </Text>
+            <Button
+              size="xs"
+              ml={16}
+              onClick={() => {
+                bingoMethods.restoreBackup();
+              }}
+            >
+              Restore
+            </Button>
+          </Group>
         </Alert>
       )}
+      {/* If medialist length is greater than styles size display text */}
+      <Transition
+        mounted={value.mediaList.length > Number(value.styles.size)}
+        transition="fade"
+        duration={200}
+        timingFunction="ease"
+      >
+        {(styles) => (
+          <Alert
+            title="Warning !"
+            icon={<InfoCircle size={16} />}
+            color="orange"
+            style={{ ...styles }}
+          >
+            <Text size="sm">
+              Some elements are hidden because bingo size is smaller than the
+              number of elements
+            </Text>
+            <Text size="sm">
+              (element count: {value.mediaList.length}, bingo size:{" "}
+              {value.styles.size})
+            </Text>
+          </Alert>
+        )}
+      </Transition>
+
       <div
         className="bingo-table"
         style={{
