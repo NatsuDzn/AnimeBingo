@@ -30,6 +30,7 @@ export function BingoProvider({ children }: Props) {
     backgroundColor: theme.colors.gray[9],
     showTitles: true,
     showMediaTitles: true,
+    scale: 1,
   });
   const [mediaList, setMediaList] = useState<any>([]);
   const [backupExist, setBackupExist] = useState<boolean>(false);
@@ -95,7 +96,15 @@ export function BingoProvider({ children }: Props) {
     },
     saveDivAsImage: async (element: any, imageFileName: any) => {
       domtoimage
-        .toPng(element, { cacheBust: true })
+        .toPng(element, {
+          width: element.clientWidth * value.styles.scale,
+          height: element.clientHeight * value.styles.scale,
+          style: {
+            transform: 'scale(' + value.styles.scale + ')',
+            transformOrigin: 'top left',
+          },
+          cacheBust: true,
+        })
         .then(function (dataUrl) {
           var img = new Image();
           img.src = dataUrl;

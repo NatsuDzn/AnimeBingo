@@ -27,7 +27,7 @@ const Home: NextPage = () => {
           color="blue"
           styles={{ wrapper: { alignItems: "center" } }}
         >
-          <Group direction="row">
+          <Group direction="row" spacing={0}>
             <Text size="sm">
               A backup of your bingo has been detected, do you want to restore
               it?

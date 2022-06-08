@@ -3,6 +3,7 @@ import {
   Checkbox,
   ColorInput,
   Group,
+  NumberInput,
   Select,
   Text,
   TextInput,
@@ -10,7 +11,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
-import { Tag } from "tabler-icons-react";
+import { Resize, Tag } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 
 function Style({ ...props }: any) {
@@ -26,15 +27,14 @@ function Style({ ...props }: any) {
       backgroundColor: theme.colors.gray[9],
       showTitles: true,
       showMediaTitles: true,
+      scale: 1,
     },
   });
 
   return (
     <form
       style={{ width: "100%" }}
-      onSubmit={form.onSubmit(
-        (values) => bingoMethods.updateStyles(values)
-      )}
+      onSubmit={form.onSubmit((values) => bingoMethods.updateStyles(values))}
     >
       <Group style={{ width: "100%" }}>
         <Group direction="row" style={{ width: "100%" }}>
@@ -46,7 +46,9 @@ function Style({ ...props }: any) {
             placeholder="Bingo title..."
             style={{ flex: 1 }}
             value={value.styles.title}
-            onChange={(e) => bingoMethods.updateStyles({ title: e.target.value })}
+            onChange={(e) =>
+              bingoMethods.updateStyles({ title: e.target.value })
+            }
           />
         </Group>
         <Group
@@ -70,6 +72,24 @@ function Style({ ...props }: any) {
             style={{ width: "64px" }}
           />
         </Group>
+        <Group
+          direction="row"
+          style={{ width: "100%", justifyContent: "space-between" }}
+        >
+          <Text size="xs">Image render scale:</Text>
+          <NumberInput
+            size="xs"
+            icon={<Resize size={14} />}
+            precision={1}
+            step={0.1}
+            min={1}
+            max={3}
+            variant={colorScheme === "dark" ? "default" : "filled"}
+            style={{ width: "80px" }}
+            value={value.styles.scale}
+            onChange={(scale: number) => bingoMethods.updateStyles({ scale })}
+          />
+        </Group>
         <Group direction="row" style={{ width: "100%" }}>
           <Text size="xs">Border color:</Text>
           <ColorInput
@@ -77,7 +97,9 @@ function Style({ ...props }: any) {
             defaultValue="#C5D899"
             style={{ flex: 1 }}
             value={value.styles.borderColor}
-            onChange={(borderColor: string) => bingoMethods.updateStyles({ borderColor })}
+            onChange={(borderColor: string) =>
+              bingoMethods.updateStyles({ borderColor })
+            }
           />
         </Group>
         <Group direction="row" style={{ width: "100%" }}>
@@ -98,7 +120,9 @@ function Style({ ...props }: any) {
             label="Display bingo title"
             size="xs"
             checked={value.styles.showTitles}
-            onChange={(e) => bingoMethods.updateStyles({ showTitles: e.target.checked })}
+            onChange={(e) =>
+              bingoMethods.updateStyles({ showTitles: e.target.checked })
+            }
           />
           <Checkbox
             label="Display media title"
