@@ -49,6 +49,8 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
           hiddenBreakpoint="sm"
           hidden={!opened}
           width={{ sm: 400, lg: 480 }}
+          // Not really a fix
+          sx={{ bottom: 0, height: "auto" }}
         >
           <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
             <SearchTitles mb={20} />

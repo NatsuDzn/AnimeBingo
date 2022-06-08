@@ -48,7 +48,7 @@ function Card({ content, ...props }: any) {
               color="gray"
               mb={2}
               lineClamp={1}
-              style={{ width: "calc(100% - 66px)" }}
+              style={{ width: "calc(100% - 75px)" }}
             >
               {content.title.userPreferred}
             </Text>
