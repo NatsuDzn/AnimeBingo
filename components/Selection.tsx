@@ -53,7 +53,7 @@ function Selection({ content = null, ...props }: any) {
                         <Trash size={14}></Trash>
                       </ActionIcon>
                       <Text size="sm" lineClamp={1} style={{ flex: 1 }}>
-                        {media.title.userPreferred}
+                        {media.title?.userPreferred || media.name.first + " " + media.name.last}
                       </Text>
                     </Group>
                   )}

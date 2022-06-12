@@ -20,6 +20,7 @@ function Card({ content, ...props }: any) {
     (media: any) => media.id === content.id
   );
 
+  const isMedia = content.type === "ANIME" || content.type === "MANGA";
   return (
     <Paper
       p="md"
@@ -41,8 +42,11 @@ function Card({ content, ...props }: any) {
           width={64}
           height={90}
           fit="cover"
-          alt={content.title.userPreferred}
-          src={content.coverImage.medium}
+          alt={
+            content.title?.userPreferred ||
+            content.name.first + " " + content.name.last
+          }
+          src={content.coverImage?.medium || content.image.medium}
           radius="md"
         />
         <Group direction="column" spacing={0} style={{ width: "100%" }}>
@@ -54,15 +58,26 @@ function Card({ content, ...props }: any) {
               lineClamp={1}
               style={{ width: "calc(100% - 75px)" }}
             >
-              {content.title.userPreferred}
+              {content.title?.userPreferred ||
+                content.name.first + " " + content.name.last}
             </Text>
-            <Badge variant={colorScheme === "dark" ? "light" : "filled"}>
-              {content.startDate.year ?? "?"}
-            </Badge>
+            {isMedia && (
+              <Badge variant={colorScheme === "dark" ? "light" : "filled"}>
+                {content.startDate.year ?? "?"}
+              </Badge>
+            )}
           </Group>
-          <Text size="sm" color="gray">
-            {content.staff.nodes[0]?.name.full ?? "Staff not found"}
-          </Text>
+
+          {isMedia ? (
+            <Text size="sm" color="gray">
+              {content.staff.nodes[0]?.name.full ?? "Staff not found"}
+            </Text>
+          ) : (
+              <Text size="sm" color="gray">
+                {content.age ? content.age + " y/o" : "unknown age"}
+              </Text>
+          )}
+
           {isIncluded && (
             <Badge
               leftSection={<Checkbox size={14} />}

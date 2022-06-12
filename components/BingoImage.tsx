@@ -39,20 +39,23 @@ function BingoImage({ content = null, index, ...props }: any) {
             position: "relative",
             outline: "2px solid",
             outlineColor: value.styles.borderColor,
-            }}
-            onPointerMove={() => setIsHover(true)}
-            onPointerOut={() => setIsHover(false)}
-            {...props}
+          }}
+          onPointerMove={() => setIsHover(true)}
+          onPointerOut={() => setIsHover(false)}
+          {...props}
         >
           <Image
             width={150}
             height={200}
             fit="cover"
-            alt={content.title.userPreferred}
-            src={content.coverImage.large}
+            alt={
+              content.title?.userPreferred ||
+              content.name.first + " " + content.name.last
+            }
+            src={content.coverImage?.large || content.image.large}
           ></Image>
 
-            {isHovered && (
+          {isHovered && (
             <ActionIcon
               style={{ position: "absolute", top: 8, right: 8 }}
               variant="filled"
@@ -63,8 +66,8 @@ function BingoImage({ content = null, index, ...props }: any) {
             </ActionIcon>
           )}
           {value.styles.showMediaTitles && (
-              <Center>
-                <CustomBadge title={content.title.userPreferred} />
+            <Center>
+              <CustomBadge title={content.title?.userPreferred || content.name.first + " " + content.name.last} />
             </Center>
           )}
         </div>

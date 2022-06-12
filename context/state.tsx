@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import anilist from "../services/anilist";
 
 const BingoContext = createContext<any>({
   styles: {},
@@ -35,6 +36,7 @@ export function BingoProvider({ children }: Props) {
   const [mediaList, setMediaList] = useState<any>([]);
   const [backupExist, setBackupExist] = useState<boolean>(false);
   const [backup, setBackup] = useState<any>(null);
+  const [results, setResults] = useState<any>(null);
 
   const downloadImage = (blob: any, fileName: any) => {
     const fakeLink = window.document.createElement("a");
@@ -113,6 +115,20 @@ export function BingoProvider({ children }: Props) {
         .catch(function (error) {
           console.error("oops, something went wrong!", error);
         });
+    },
+    // Search
+    searchMedia(search: string, category: string): Promise<any> {
+      switch (category) {
+        case "anime":
+        case "manga":
+          return anilist.searchMedia(search, category);
+        case "character":
+          return anilist.searchCharacter(search);
+        case "staff":
+          return anilist.searchStaff(search);
+        default: 
+          return Promise.reject("Invalid category");
+      }
     },
   };
 

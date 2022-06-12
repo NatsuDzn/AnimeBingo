@@ -15,12 +15,14 @@ import { Search, X } from "tabler-icons-react";
 import { useForm } from "@mantine/form";
 import anilist from "../services/anilist";
 import Card from "./Card";
+import { useBingo } from "../context/state";
 
 function SearchTitles({ ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<any>(null);
   const { colorScheme } = useMantineColorScheme();
   const viewport = useRef<any>();
+  const { bingoMethods } = useBingo();
 
   const form = useForm({
     initialValues: {
@@ -33,10 +35,9 @@ function SearchTitles({ ...props }) {
     },
   });
 
-  const search = async (values: any) => {
+  const search = async (values: any, category: any) => {
     setIsLoading(true);
-    const result: any = await anilist.search(values.search, values.category);
-    setResults(result);
+    setResults(await bingoMethods.searchMedia(values.search, values.category));  
     setIsLoading(false);
     scrollToTop();
   };
@@ -70,7 +71,7 @@ function SearchTitles({ ...props }) {
   return (
     <Group direction="column" {...props}>
       <form
-        onSubmit={form.onSubmit((values) => search(values))}
+        onSubmit={form.onSubmit((values) => search(values, values.category))}
         style={{ width: "100%" }}
       >
         <Group>
@@ -125,15 +126,10 @@ function SearchTitles({ ...props }) {
         Array(3)
           .fill(0)
           .map((_, i) => <Skeleton key={i} height={124} radius="md" />)}
-      
+
       {/* Display empty message if results is empty */}
-      {!isLoading && !results || results?.length === 0 && (
-        <Text
-          size="sm"
-        >
-          No results found
-        </Text>
-      )}
+      {(!isLoading && !results) ||
+        (results?.length === 0 && <Text size="sm">No results found</Text>)}
 
       {/* Display the results */}
       {results && !isLoading && (
