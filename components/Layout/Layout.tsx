@@ -14,10 +14,7 @@ import {
   Anchor,
   Divider,
 } from "@mantine/core";
-import {
-  Photo,
-  Trash,
-} from "tabler-icons-react";
+import { Photo, Trash } from "tabler-icons-react";
 import NavbarHeading from "./Nav/NavbarHeading";
 import NavbarAccordion from "./Nav/NavbarAccordion";
 import SearchTitles from "./../Search";
@@ -29,6 +26,16 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
   const [opened, setOpened] = useState(false);
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { bingoMethods } = useBingo();
+  const [isSaving, setIsSaving] = useState(false);
+
+  const saveBingo = async () => {
+    setIsSaving(true);
+    await bingoMethods.saveDivAsImage(
+      document.querySelector(".bingo-table"),
+      "bingo.png"
+    );
+    setIsSaving(false);
+  };
 
   return (
     <AppShell
@@ -73,7 +80,8 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
                 color="green"
                 variant={colorScheme === "dark" ? "light" : "filled"}
                 leftIcon={<Photo size={16} />}
-                onClick={() => bingoMethods.saveDivAsImage(document.querySelector(".bingo-table"), "bingo.png")}
+                loading={isSaving}
+                onClick={() => saveBingo()}
               >
                 Save bingo
               </Button>

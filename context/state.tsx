@@ -96,8 +96,8 @@ export function BingoProvider({ children }: Props) {
       setStyles(backup.style);
       setMediaList(backup.list);
     },
-    saveDivAsImage: async (element: any, imageFileName: any) => {
-      domtoimage
+    saveDivAsImage: (element: any, imageFileName: any): Promise<any> => {
+      return domtoimage
         .toPng(element, {
           width: element.clientWidth * value.styles.scale,
           height: element.clientHeight * value.styles.scale,
