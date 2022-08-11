@@ -67,6 +67,16 @@ export function BingoProvider({ children }: Props) {
       newMediaList.splice(destination, 0, removed);
       setMediaList(newMediaList);
     },
+    openMediaLink: (content: any) => {
+      switch (content.type) {
+        case "ANIME":
+          window.open(`https://anilist.co/anime/${content.id}`);
+          break;
+        case "MANGA":
+          window.open(`https://anilist.co/manga/${content.id}`);
+          break;
+      }
+    },
     clearMediaList: () => {
       setMediaList([]);
     },

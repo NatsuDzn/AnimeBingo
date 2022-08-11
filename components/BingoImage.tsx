@@ -6,7 +6,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useState } from "react";
-import { X } from "tabler-icons-react";
+import { ExternalLink, X } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 import CustomBadge from "./CustomBadge";
 
@@ -56,18 +56,35 @@ function BingoImage({ content = null, index, ...props }: any) {
           ></Image>
 
           {isHovered && (
-            <ActionIcon
-              style={{ position: "absolute", top: 8, right: 8 }}
-              variant="filled"
-              color="red"
-              onClick={() => bingoMethods.removeSelectedMedia(content.id)}
-            >
-              <X size={14}></X>
-            </ActionIcon>
+            <>
+              <ActionIcon
+                style={{ position: "absolute", top: 8, right: 8 }}
+                variant="filled"
+                color="red"
+                onClick={() => bingoMethods.removeSelectedMedia(content.id)}
+              >
+                <X size={14}></X>
+              </ActionIcon>
+              {content.type && (
+                <ActionIcon
+                  style={{ position: "absolute", top: 40, right: 8 }}
+                  variant="filled"
+                  color="blue"
+                  onClick={() => bingoMethods.openMediaLink(content)}
+                >
+                  <ExternalLink size={14}></ExternalLink>
+                </ActionIcon>
+              )}
+            </>
           )}
           {value.styles.showMediaTitles && (
             <Center>
-              <CustomBadge title={content.title?.userPreferred || content.name.first + " " + content.name.last} />
+              <CustomBadge
+                title={
+                  content.title?.userPreferred ||
+                  content.name.first + " " + content.name.last
+                }
+              />
             </Center>
           )}
         </div>
