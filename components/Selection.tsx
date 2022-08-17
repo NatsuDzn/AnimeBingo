@@ -17,7 +17,7 @@ function Selection({ content = null, ...props }: any) {
   return (
     <DragDropContext
       onDragEnd={({ source, destination }) => {
-        bingoMethods.moveMedia(source.index, destination?.index)
+        bingoMethods.moveMedia(source.index, destination?.index);
       }}
     >
       <Droppable droppableId="dnd-list" direction="vertical">
@@ -53,7 +53,11 @@ function Selection({ content = null, ...props }: any) {
                         <Trash size={14}></Trash>
                       </ActionIcon>
                       <Text size="sm" lineClamp={1} style={{ flex: 1 }}>
-                        {media.title?.userPreferred || media.name.first + " " + media.name.last}
+                        {value.styles.titleFormat &&
+                        media.title?.[value.styles.titleFormat]
+                          ? media.title?.[value.styles.titleFormat]
+                          : media.title?.userPreferred ||
+                            media.name.first + " " + media.name.last}
                       </Text>
                     </Group>
                   )}
