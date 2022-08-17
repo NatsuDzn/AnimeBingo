@@ -7,6 +7,7 @@ import {
   Select,
   Text,
   TextInput,
+  Tooltip,
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
@@ -28,6 +29,7 @@ function Style({ ...props }: any) {
       showTitles: true,
       showMediaTitles: true,
       scale: 1,
+      titleFormat: "default",
     },
   });
 
@@ -51,6 +53,40 @@ function Style({ ...props }: any) {
             }
           />
         </Group>
+
+        <Group
+          direction="row"
+          style={{ width: "100%", justifyContent: "space-between" }}
+        >
+          <Text size="xs">Media title format:</Text>
+          <Tooltip
+            label={
+              !value.styles.showMediaTitles
+                ? "Media titles needs to be enabled"
+                : "Will change the language to the said one if it's available"
+            }
+          >
+            <Select
+              disabled={!value.styles.showMediaTitles}
+              size="xs"
+              data={[
+                { value: "english", label: "English" },
+                { value: "native", label: "Native" },
+                { value: "romanji", label: "Romanji" },
+                { value: "userPreferred", label: "Default" },
+              ]}
+              value={
+                value.styles.titleFormat ? value.styles.titleFormat : "default"
+              }
+              onChange={(titleFormat: string) =>
+                bingoMethods.updateStyles({ titleFormat })
+              }
+              variant={colorScheme === "dark" ? "default" : "filled"}
+              style={{ width: "90px" }}
+            />
+          </Tooltip>
+        </Group>
+
         <Group
           direction="row"
           style={{ width: "100%", justifyContent: "space-between" }}

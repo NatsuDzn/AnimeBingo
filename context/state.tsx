@@ -32,6 +32,7 @@ export function BingoProvider({ children }: Props) {
     showTitles: true,
     showMediaTitles: true,
     scale: 1,
+    titleFormat: "userPreferred",
   });
   const [mediaList, setMediaList] = useState<any>([]);
   const [backupExist, setBackupExist] = useState<boolean>(false);

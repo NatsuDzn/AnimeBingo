@@ -143,7 +143,7 @@ function BingoImage({ content = null, index, ...props }: any) {
             <Center>
               <CustomBadge
                 title={
-                  content.title?.userPreferred ||
+                  value.styles.titleFormat && content.title?.[value.styles.titleFormat] ? content.title?.[value.styles.titleFormat] : content.title?.userPreferred ||
                   content.name.first + " " + content.name.last
                 }
               />
