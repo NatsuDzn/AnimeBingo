@@ -29,7 +29,7 @@ function Style({ ...props }: any) {
       showTitles: true,
       showMediaTitles: true,
       scale: 1,
-      titleFormat: "default",
+      titleFormat: "userPreferred",
     },
   });
 
@@ -76,7 +76,7 @@ function Style({ ...props }: any) {
                 { value: "userPreferred", label: "Default" },
               ]}
               value={
-                value.styles.titleFormat ? value.styles.titleFormat : "default"
+                value.styles.titleFormat ? value.styles.titleFormat : "userPreferred"
               }
               onChange={(titleFormat: string) =>
                 bingoMethods.updateStyles({ titleFormat })
