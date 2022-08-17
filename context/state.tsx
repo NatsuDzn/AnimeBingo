@@ -67,6 +67,14 @@ export function BingoProvider({ children }: Props) {
       newMediaList.splice(destination, 0, removed);
       setMediaList(newMediaList);
     },
+    setMediaStatus: (id: number, status: boolean) => {
+      const newMediaList = [...mediaList];
+      const media = newMediaList.find((m: any) => m.id === id);
+      if (media) {
+        media.isDone = status;
+      }
+      setMediaList(newMediaList);
+    },
     openMediaLink: (content: any) => {
       switch (content.type) {
         case "ANIME":
