@@ -1,27 +1,22 @@
 import {
-  ActionIcon,
   Center,
   Image,
-  Stack,
   Transition,
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
 import { useState } from "react";
 import {
-  Bookmark,
-  BookmarkOff,
   CircleCheck,
-  ExternalLink,
-  X,
 } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 import CustomBadge from "./CustomBadge";
+import MediaActions from "./MediaActions";
 
 function BingoImage({ content = null, index, ...props }: any) {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
-  const { value, bingoMethods } = useBingo();
+  const { value } = useBingo();
   const [isHovered, setIsHover] = useState(false);
 
   return (
@@ -52,7 +47,7 @@ function BingoImage({ content = null, index, ...props }: any) {
           onPointerMove={() => setIsHover(true)}
           onPointerOut={() => setIsHover(false)}
           {...props}
-          >
+        >
           <Transition
             mounted={content.isDone}
             transition="fade"
@@ -99,52 +94,24 @@ function BingoImage({ content = null, index, ...props }: any) {
             src={content.coverImage?.large || content.image.large}
           ></Image>
 
-          {isHovered && (
-            <Stack
-              style={{ position: "absolute", top: 8, right: 8, zIndex: 3 }}
-              spacing={6}
-            >
-              <ActionIcon
-                variant="filled"
-                color="red"
-                onClick={() => bingoMethods.removeSelectedMedia(content.id)}
-              >
-                <X size={14}></X>
-              </ActionIcon>
-              {content.type && (
-                <>
-                  <ActionIcon
-                    variant="filled"
-                    color="blue"
-                    onClick={() => bingoMethods.openMediaLink(content)}
-                  >
-                    <ExternalLink size={14}></ExternalLink>
-                  </ActionIcon>
-                  <ActionIcon
-                    variant="filled"
-                    color={content.isDone ? "orange" : "green"}
-                    onClick={() =>
-                      content.isDone
-                        ? bingoMethods.setMediaStatus(content.id, false)
-                        : bingoMethods.setMediaStatus(content.id, true)
-                    }
-                  >
-                    {content.isDone ? (
-                      <BookmarkOff size={14}></BookmarkOff>
-                    ) : (
-                      <Bookmark size={14}></Bookmark>
-                    )}
-                  </ActionIcon>
-                </>
-              )}
-            </Stack>
-          )}
+          <Transition
+            mounted={isHovered}
+            transition="slide-left"
+            duration={300}
+            timingFunction="ease"
+          >
+            {(styles) => <MediaActions content={content} styles={styles} />}
+          </Transition>
+
           {value.styles.showMediaTitles && (
             <Center>
               <CustomBadge
                 title={
-                  value.styles.titleFormat && content.title?.[value.styles.titleFormat] ? content.title?.[value.styles.titleFormat] : content.title?.userPreferred ||
-                  content.name.first + " " + content.name.last
+                  value.styles.titleFormat &&
+                  content.title?.[value.styles.titleFormat]
+                    ? content.title?.[value.styles.titleFormat]
+                    : content.title?.userPreferred ||
+                      content.name.first + " " + content.name.last
                 }
               />
             </Center>

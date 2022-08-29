@@ -37,7 +37,6 @@ export function BingoProvider({ children }: Props) {
   const [mediaList, setMediaList] = useState<any>([]);
   const [backupExist, setBackupExist] = useState<boolean>(false);
   const [backup, setBackup] = useState<any>(null);
-  const [results, setResults] = useState<any>(null);
 
   const downloadImage = (blob: any, fileName: any) => {
     const fakeLink = window.document.createElement("a");
@@ -76,14 +75,14 @@ export function BingoProvider({ children }: Props) {
       }
       setMediaList(newMediaList);
     },
-    openMediaLink: (content: any) => {
+    getMediaLink: (content: any): string => {
       switch (content.type) {
         case "ANIME":
-          window.open(`https://anilist.co/anime/${content.id}`);
-          break;
+          return `https://anilist.co/anime/${content.id}`;
         case "MANGA":
-          window.open(`https://anilist.co/manga/${content.id}`);
-          break;
+          return `https://anilist.co/manga/${content.id}`;
+        default:
+          return '';
       }
     },
     clearMediaList: () => {
