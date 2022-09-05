@@ -20,7 +20,7 @@ const Home: NextPage = () => {
   return (
     <Center style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       {/* Should check if it has been restored at least once */}
-      {value.backup.backupExist && (
+      {value.backupExist && (
         <Alert
           title="Informations"
           icon={<InfoCircle size={16} />}

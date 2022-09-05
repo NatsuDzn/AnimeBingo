@@ -1,30 +1,44 @@
-import { Button, Group, Tooltip, useMantineColorScheme } from "@mantine/core";
-import { DeviceFloppy, RotateClockwise, Trash } from "tabler-icons-react";
+import { Button, Group, Modal, useMantineColorScheme } from "@mantine/core";
+import { useState } from "react";
+import { Settings } from "tabler-icons-react";
 import { useBingo } from "../../../context/state";
+import ManageBackup from "./ManageBackup";
 
 function BackupRestore({}: any) {
   const { colorScheme } = useMantineColorScheme();
   const { value, bingoMethods } = useBingo();
+  const [opened, setOpened] = useState(false);
   
   return (
+    
     <Group
       spacing="sm"
       direction="row"
       align="center"
       style={{ marginTop: 6, width: "100%" }}
     >
+
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Manage backup"
+        centered
+      >
+        <ManageBackup onRestore={() => setOpened(false)} />
+      </Modal>
+
       <Button
         size="sm"
         color="blue"
         variant={colorScheme === "dark" ? "light" : "filled"}
-        leftIcon={<DeviceFloppy size={16} />}
+        leftIcon={<Settings size={16} />}
         style={{ flex: 1 }}
-        disabled={value.mediaList.length === 0}
-        onClick={() => bingoMethods.backupBingo()}
+        onClick={() => setOpened(true)}
+        // onClick={() => bingoMethods.backupBingo()}
       >
-        Backup
+        Manage backup
       </Button>
-      <Tooltip
+      {/* <Tooltip
         label={new Date(value.backup.date).toLocaleString()}
         disabled={!value.backup.date}
         position="top"
@@ -51,7 +65,7 @@ function BackupRestore({}: any) {
         disabled={!value.backup.backupExist}
       >
         Delete
-      </Button>
+      </Button> */}
     </Group>
   );
 }

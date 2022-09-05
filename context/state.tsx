@@ -36,7 +36,7 @@ export function BingoProvider({ children }: Props) {
   });
   const [mediaList, setMediaList] = useState<any>([]);
   const [backupExist, setBackupExist] = useState<boolean>(false);
-  const [backup, setBackup] = useState<any>(null);
+  const [backup, setBackup] = useState<any[]>([]);
 
   const downloadImage = (blob: any, fileName: any) => {
     const fakeLink = window.document.createElement("a");
@@ -82,7 +82,7 @@ export function BingoProvider({ children }: Props) {
         case "MANGA":
           return `https://anilist.co/manga/${content.id}`;
         default:
-          return '';
+          return "";
       }
     },
     clearMediaList: () => {
@@ -90,29 +90,34 @@ export function BingoProvider({ children }: Props) {
     },
     checkBackup: () => {
       if (typeof window !== "undefined") {
-        const backup = window.localStorage.getItem("backup");
-        setBackupExist(backup !== null);
-        setBackup(JSON.parse(backup || "{}"));
+        const backup = window.localStorage.getItem("backupList");
+        setBackupExist(backup?.length !== 0);
+        setBackup(JSON.parse(localStorage.getItem("backupList") || "[]")
+        );
       }
     },
-    backupBingo: () => {
-      localStorage.setItem(
-        "backup",
-        JSON.stringify({
+    saveBingo() {
+      let savedBingo = {
+        title: value.styles.title || `${new Date().toLocaleString()} (${new Date().getTime()})`,
+        date: new Date().getTime(),
+        backup: {
           list: value.mediaList,
           style: value.styles,
-          date: new Date().getTime(),
-        })
-      );
-      bingoMethods.checkBackup();
+        },
+      };
+      let newBingo = [...backup, savedBingo]
+      localStorage.setItem("backupList", JSON.stringify(newBingo));
+      setBackup(newBingo)
     },
-    deleteBackup: () => {
-      localStorage.removeItem("backup");
-      bingoMethods.checkBackup();
+    deleteSelectedBackup: (selectedBackup: any) => {
+      let remainingSlot = backup.filter((m: any) => m.date !== selectedBackup.date); 
+      setBackup(remainingSlot);
+      localStorage.setItem("backupList", JSON.stringify(remainingSlot));
     },
-    restoreBackup: () => {
-      setStyles(backup.style);
-      setMediaList(backup.list);
+    restoreBackup: (index: number) => {
+      const selectedBackup = backup[index].backup;    
+      setStyles(selectedBackup.style);
+      setMediaList(selectedBackup.list);
     },
     saveDivAsImage: (element: any, imageFileName: any): Promise<any> => {
       return domtoimage
@@ -120,8 +125,8 @@ export function BingoProvider({ children }: Props) {
           width: element.clientWidth * value.styles.scale,
           height: element.clientHeight * value.styles.scale,
           style: {
-            transform: 'scale(' + value.styles.scale + ')',
-            transformOrigin: 'top left',
+            transform: "scale(" + value.styles.scale + ")",
+            transformOrigin: "top left",
           },
           cacheBust: true,
         })
@@ -144,7 +149,7 @@ export function BingoProvider({ children }: Props) {
           return anilist.searchCharacter(search);
         case "staff":
           return anilist.searchStaff(search);
-        default: 
+        default:
           return Promise.reject("Invalid category");
       }
     },
@@ -153,10 +158,8 @@ export function BingoProvider({ children }: Props) {
   const value = {
     styles,
     mediaList,
-    backup: {
-      backupExist,
-      ...backup,
-    },
+    backupExist,
+    backup
   };
 
   useEffect(() => {
