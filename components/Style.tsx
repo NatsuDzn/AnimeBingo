@@ -3,15 +3,17 @@ import {
   Checkbox,
   ColorInput,
   Group,
+  InputVariant,
   NumberInput,
   Select,
+  Stack,
   Text,
   TextInput,
   Tooltip,
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { useForm } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
 import { Resize, Tag } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 
@@ -33,16 +35,18 @@ function Style({ ...props }: any) {
     },
   });
 
+  const inputVariant: InputVariant = colorScheme === "dark" ? "default" : "filled";
+
   return (
     <form
       style={{ width: "100%" }}
       onSubmit={form.onSubmit((values) => bingoMethods.updateStyles(values))}
     >
       <Group style={{ width: "100%" }}>
-        <Group direction="row" style={{ width: "100%" }}>
+        <Group style={{ width: "100%" }}>
           <Text size="xs">Title:</Text>
           <TextInput
-            variant={colorScheme === "dark" ? "default" : "filled"}
+            variant={inputVariant}
             size="xs"
             icon={<Tag size={14} />}
             placeholder="Bingo title..."
@@ -54,10 +58,7 @@ function Style({ ...props }: any) {
           />
         </Group>
 
-        <Group
-          direction="row"
-          style={{ width: "100%", justifyContent: "space-between" }}
-        >
+        <Group style={{ width: "100%", justifyContent: "space-between" }}>
           <Text size="xs">Media title format:</Text>
           <Tooltip
             label={
@@ -76,21 +77,20 @@ function Style({ ...props }: any) {
                 { value: "userPreferred", label: "Default" },
               ]}
               value={
-                value.styles.titleFormat ? value.styles.titleFormat : "userPreferred"
+                value.styles.titleFormat
+                  ? value.styles.titleFormat
+                  : "userPreferred"
               }
               onChange={(titleFormat: string) =>
                 bingoMethods.updateStyles({ titleFormat })
               }
-              variant={colorScheme === "dark" ? "default" : "filled"}
+              variant={inputVariant}
               style={{ width: "90px" }}
             />
           </Tooltip>
         </Group>
 
-        <Group
-          direction="row"
-          style={{ width: "100%", justifyContent: "space-between" }}
-        >
+        <Group style={{ width: "100%", justifyContent: "space-between" }}>
           <Text size="xs">Size:</Text>
           <Select
             size="xs"
@@ -104,14 +104,11 @@ function Style({ ...props }: any) {
             ]}
             value={value.styles.size}
             onChange={(size: string) => bingoMethods.updateStyles({ size })}
-            variant={colorScheme === "dark" ? "default" : "filled"}
-            style={{ width: "64px" }}
+            variant={inputVariant}
+            style={{ width: "70px" }}
           />
         </Group>
-        <Group
-          direction="row"
-          style={{ width: "100%", justifyContent: "space-between" }}
-        >
+        <Group style={{ width: "100%", justifyContent: "space-between" }}>
           <Text size="xs">Image render scale:</Text>
           <NumberInput
             size="xs"
@@ -120,16 +117,16 @@ function Style({ ...props }: any) {
             step={0.1}
             min={1}
             max={3}
-            variant={colorScheme === "dark" ? "default" : "filled"}
+            variant={inputVariant}
             style={{ width: "80px" }}
             value={value.styles.scale}
             onChange={(scale: number) => bingoMethods.updateStyles({ scale })}
           />
         </Group>
-        <Group direction="row" style={{ width: "100%" }}>
+        <Group style={{ width: "100%" }}>
           <Text size="xs">Border color:</Text>
           <ColorInput
-            variant={colorScheme === "dark" ? "default" : "filled"}
+            variant={inputVariant}
             defaultValue="#C5D899"
             style={{ flex: 1 }}
             value={value.styles.borderColor}
@@ -138,10 +135,10 @@ function Style({ ...props }: any) {
             }
           />
         </Group>
-        <Group direction="row" style={{ width: "100%" }}>
+        <Group style={{ width: "100%" }}>
           <Text size="xs">Background color:</Text>
           <ColorInput
-            variant={colorScheme === "dark" ? "default" : "filled"}
+            variant={inputVariant}
             defaultValue="#C5D899"
             style={{ flex: 1 }}
             value={value.styles.backgroundColor}
@@ -151,7 +148,7 @@ function Style({ ...props }: any) {
           />
         </Group>
 
-        <Group direction="column" style={{ width: "100%" }} mb={16}>
+        <Stack style={{ width: "100%" }} mb={16}>
           <Checkbox
             label="Display bingo title"
             size="xs"
@@ -168,11 +165,11 @@ function Style({ ...props }: any) {
               bingoMethods.updateStyles({ showMediaTitles: e.target.checked })
             }
           />
-        </Group>
+        </Stack>
       </Group>
       <Button
         size="xs"
-        variant={colorScheme === "dark" ? "default" : "filled"}
+        variant={inputVariant}
         onClick={() => {
           form.reset();
         }}

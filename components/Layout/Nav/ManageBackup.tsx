@@ -38,9 +38,9 @@ function ManageBackup({onRestore}: any) {
 
       {value.backup.map((list: any, index: number) => (
         <Group key={index} align="center">
-          <Tooltip label={"Restore bingo"} style={{ flex: 1 }}>
+          <Tooltip label={"Restore bingo"}>
             <Paper
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", flex: 1 }}
               shadow="xs"
               radius="md"
               p="xs"

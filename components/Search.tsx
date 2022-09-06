@@ -69,7 +69,7 @@ function SearchTitles({ ...props }) {
   };
 
   return (
-    <Group direction="column" {...props}>
+    <Group {...props}>
       <form
         onSubmit={form.onSubmit((values) => search(values, values.category))}
         style={{ width: "100%" }}

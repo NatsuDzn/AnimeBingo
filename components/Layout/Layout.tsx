@@ -73,7 +73,7 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
             >
               Using AniList API
             </Anchor>
-            <Group spacing="sm" direction="row" style={{ marginTop: 6 }}>
+            <Group spacing="sm" style={{ marginTop: 6 }}>
               <Button
                 style={{ flex: 1 }}
                 size="sm"

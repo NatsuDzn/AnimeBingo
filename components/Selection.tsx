@@ -2,9 +2,9 @@ import {
   ActionIcon,
   Center,
   Group,
+  Stack,
   Text,
   useMantineColorScheme,
-  useMantineTheme,
 } from "@mantine/core";
 import { GripVertical, Trash } from "tabler-icons-react";
 import { useBingo } from "../context/state";
@@ -23,7 +23,7 @@ function Selection({ content = null, ...props }: any) {
       <Droppable droppableId="dnd-list" direction="vertical">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            <Group direction="column">
+            <Stack>
               {/* Display empty */}
               {value.mediaList.length === 0 && <Text>Empty</Text>}
 
@@ -37,7 +37,6 @@ function Selection({ content = null, ...props }: any) {
                     <Group
                       ref={provided.innerRef}
                       style={{ width: "100%" }}
-                      direction="row"
                       {...provided.draggableProps}
                     >
                       <Center {...provided.dragHandleProps}>
@@ -63,7 +62,7 @@ function Selection({ content = null, ...props }: any) {
                   )}
                 </Draggable>
               ))}
-            </Group>
+            </Stack>
             {provided.placeholder}
           </div>
         )}

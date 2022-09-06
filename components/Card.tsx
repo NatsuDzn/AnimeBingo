@@ -3,6 +3,7 @@ import {
   Group,
   Image,
   Paper,
+  Stack,
   Text,
   useMantineColorScheme,
   useMantineTheme,
@@ -37,7 +38,7 @@ function Card({ content, ...props }: any) {
       }}
       onClick={() => bingoMethods.pushMedia(content)}
     >
-      <Group align="start" direction="row" noWrap>
+      <Group align="start" noWrap>
         <Image
           width={64}
           height={90}
@@ -49,11 +50,10 @@ function Card({ content, ...props }: any) {
           src={content.coverImage?.medium || content.image.medium}
           radius="md"
         />
-        <Group direction="column" spacing={0} style={{ width: "100%" }}>
+        <Stack align="start" spacing={0} style={{ width: "100%" }}>
           <Group noWrap position="apart" style={{ width: "100%" }}>
             <Text
               size="md"
-              color="gray"
               mb={2}
               lineClamp={1}
               style={{ width: "calc(100% - 75px)" }}
@@ -69,11 +69,11 @@ function Card({ content, ...props }: any) {
           </Group>
 
           {isMedia ? (
-            <Text size="sm" color="gray">
+            <Text size="sm">
               {content.staff.nodes[0]?.name.full ?? "Staff not found"}
             </Text>
           ) : (
-              <Text size="sm" color="gray">
+              <Text size="sm">
                 {content.age ? content.age + " y/o" : "unknown age"}
               </Text>
           )}
@@ -89,7 +89,7 @@ function Card({ content, ...props }: any) {
               {isIncluded ? "Added" : null}
             </Badge>
           )}
-        </Group>
+        </Stack>
       </Group>
     </Paper>
   );

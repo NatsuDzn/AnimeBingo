@@ -23,6 +23,8 @@ export const searchMedia = (keyword: string, type: string): string => {
                     medium
                     large
                 }
+                bannerImage
+                status
                 startDate {
                   year
                 }
