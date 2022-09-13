@@ -1,4 +1,4 @@
-import { Badge, Paper, Text } from "@mantine/core";
+import { Paper, Text } from "@mantine/core";
 
 function CustomBadge({ title, ...props }: any) {
   // Display title

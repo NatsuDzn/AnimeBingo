@@ -33,7 +33,6 @@ function NavbarAccordion() {
 
   return (
     <Accordion
-      disableChevronRotation
       multiple
       value={value}
       onChange={setValue}
