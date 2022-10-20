@@ -1,6 +1,7 @@
 import { ThemeIcon, Accordion, Text } from "@mantine/core";
 import { useState } from "react";
-import { Keyboard, Paint, Table } from "tabler-icons-react";
+import { Filter, Paint, Table } from "tabler-icons-react";
+import Filters from "../../Filters";
 import Selection from "../../Selection";
 import Style from "../../Style";
 
@@ -16,10 +17,10 @@ function NavbarAccordion() {
       children: <Selection />,
     },
     {
-      label: "Custom",
-      icon: <Keyboard size={iconSize} />,
-      color: "gray",
-      children: <Text>Custom component</Text>,
+      label: "Actions & Sort",
+      icon: <Filter size={iconSize} />,
+      color: "red",
+      children: <Filters />,
     },
     {
       label: "Style",
