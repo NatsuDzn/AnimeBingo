@@ -1,4 +1,4 @@
-import { ThemeIcon, Accordion, Text } from "@mantine/core";
+import { ThemeIcon, Accordion } from "@mantine/core";
 import { useState } from "react";
 import { Filter, Paint, Table } from "tabler-icons-react";
 import Filters from "../../Filters";

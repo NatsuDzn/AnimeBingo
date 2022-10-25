@@ -10,7 +10,7 @@ import { GripVertical, Trash } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-function Selection({ content = null, ...props }: any) {
+function Selection() {
   const { value, bingoMethods } = useBingo();
   const { colorScheme } = useMantineColorScheme();
 

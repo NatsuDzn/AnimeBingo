@@ -2,7 +2,6 @@ import {
   Center,
   HoverCard,
   Image,
-  Popover,
   Transition,
   useMantineColorScheme,
   useMantineTheme,
@@ -12,9 +11,8 @@ import { CircleCheck } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 import CustomBadge from "./CustomBadge";
 import MediaActions from "./MediaActions";
-import MediaDetails from "./MediaDetails";
 
-function BingoImage({ content = null, index, ...props }: any) {
+function BingoImage({ content = null, ...props }: any) {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
   const { value } = useBingo();
@@ -121,9 +119,6 @@ function BingoImage({ content = null, index, ...props }: any) {
               )}
             </div>
           </HoverCard.Target>
-          {/* <HoverCard.Dropdown>
-            <MediaDetails media={content} />
-          </HoverCard.Dropdown> */}
         </HoverCard>
       )}
     </div>

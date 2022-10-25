@@ -12,7 +12,7 @@ import { useForceUpdate } from "@mantine/hooks";
 import { Plus, Trash } from "tabler-icons-react";
 import { useBingo } from "../../../context/state";
 
-function ManageBackup({onRestore}: any) {
+function ManageBackup({ onRestore }: any) {
   const { colorScheme } = useMantineColorScheme();
   const { value, bingoMethods } = useBingo();
   const forceUpdate = useForceUpdate();
@@ -47,7 +47,9 @@ function ManageBackup({onRestore}: any) {
               withBorder
               onClick={() => restoreBackup(index)}
             >
-              {list.title} ({new Date(list.date).toLocaleString()})
+              <Text size="xs" lineClamp={1}>
+                {list.title} ({new Date(list.date).toLocaleString()})
+              </Text>
             </Paper>
           </Tooltip>
           <ActionIcon

@@ -3,7 +3,6 @@ import {
   Badge,
   Group,
   Modal,
-  Text,
   Title,
   useMantineTheme,
 } from "@mantine/core";

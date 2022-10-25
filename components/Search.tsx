@@ -3,7 +3,6 @@ import {
   Button,
   Group,
   Input,
-  Loader,
   ScrollArea,
   Select,
   Skeleton,
@@ -13,7 +12,6 @@ import {
 import { useRef, useState } from "react";
 import { Search, X } from "tabler-icons-react";
 import { useForm } from "@mantine/form";
-import anilist from "../services/anilist";
 import Card from "./Card";
 import { useBingo } from "../context/state";
 
@@ -35,7 +33,7 @@ function SearchTitles({ ...props }) {
     },
   });
 
-  const search = async (values: any, category: any) => {
+  const search = async (values: any) => {
     setIsLoading(true);
     setResults(await bingoMethods.searchMedia(values.search, values.category));  
     setIsLoading(false);
@@ -71,7 +69,7 @@ function SearchTitles({ ...props }) {
   return (
     <Group {...props}>
       <form
-        onSubmit={form.onSubmit((values) => search(values, values.category))}
+        onSubmit={form.onSubmit((values) => search(values))}
         style={{ width: "100%" }}
       >
         <Group>

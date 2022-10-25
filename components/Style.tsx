@@ -17,7 +17,7 @@ import { useForm } from "@mantine/form";
 import { Resize, Tag } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 
-function Style({ ...props }: any) {
+function Style() {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
   const { value, bingoMethods } = useBingo();
