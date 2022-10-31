@@ -19,7 +19,7 @@ import NavbarHeading from "./Nav/NavbarHeading";
 import NavbarAccordion from "./Nav/NavbarAccordion";
 import SearchTitles from "./../Search";
 import { useBingo } from "../../context/state";
-import BackupRestore from "./Nav/BackupRestore";
+import BackupRestore from "./Nav/Backup/BackupRestore";
 
 const Layout = ({ children }: PropsWithChildren<{}>) => {
   const theme = useMantineTheme();

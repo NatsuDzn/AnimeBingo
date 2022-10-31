@@ -3,14 +3,16 @@ import {
   Group,
   Image,
   Paper,
+  Popover,
   Stack,
   Text,
   Tooltip,
   useMantineColorScheme,
 } from "@mantine/core";
 import { useForceUpdate } from "@mantine/hooks";
-import { Plus, Trash } from "tabler-icons-react";
-import { useBingo } from "../../../context/state";
+import { InfoCircle, Plus, Trash } from "tabler-icons-react";
+import { useBingo } from "../../../../context/state";
+import BackupInfos from "./BackupInfos";
 
 function ManageBackup({ onRestore }: any) {
   const { colorScheme } = useMantineColorScheme();
@@ -31,6 +33,7 @@ function ManageBackup({ onRestore }: any) {
     bingoMethods.deleteSelectedBackup(list);
     forceUpdate();
   };
+  
 
   return (
     <Stack>
@@ -52,6 +55,20 @@ function ManageBackup({ onRestore }: any) {
               </Text>
             </Paper>
           </Tooltip>
+          <Popover width={260} position="bottom" withArrow shadow="md">
+            <Popover.Target>
+              <ActionIcon
+                variant={colorScheme === "dark" ? "light" : "filled"}
+                color="blue"
+                size="lg"
+              >
+                <InfoCircle size={16}></InfoCircle>
+              </ActionIcon>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <BackupInfos backup={value.backup[index].backup} />
+            </Popover.Dropdown>
+          </Popover>
           <ActionIcon
             variant={colorScheme === "dark" ? "light" : "filled"}
             color="red"

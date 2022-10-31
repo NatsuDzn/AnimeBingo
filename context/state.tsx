@@ -76,14 +76,14 @@ export function BingoProvider({ children }: Props) {
       setMediaList(newMediaList);
     },
     markAllMediaAsRead: (markAsRead: boolean) => {
-      let items = [...mediaList];
+      const items = [...mediaList];
       items.forEach((element: any) => {
         element.isDone = markAsRead;
       });
       setMediaList(items);
     },
     sortMediaBy(field: any) {
-      let items = [...mediaList];
+      const items = [...mediaList];
 
       if (field === "title") {
         items.sort((a: any, b: any) => {
@@ -92,8 +92,8 @@ export function BingoProvider({ children }: Props) {
             .localeCompare(b.title.userPreferred.toLowerCase());
         });
       } else if (field === "random") {
-        items.sort((a: any, b: any) => {
-          return 0.5 - Math.random()
+        items.sort(() => {
+          return 0.5 - Math.random();
         });
       } else {
         return items;
@@ -122,7 +122,7 @@ export function BingoProvider({ children }: Props) {
       }
     },
     saveBingo() {
-      let savedBingo = {
+      const savedBingo = {
         title:
           value.styles.title ||
           `${new Date().toLocaleString()} (${new Date().getTime()})`,
@@ -132,12 +132,12 @@ export function BingoProvider({ children }: Props) {
           style: value.styles,
         },
       };
-      let newBingo = [...backup, savedBingo];
+      const newBingo = [...backup, savedBingo];
       localStorage.setItem("backupList", JSON.stringify(newBingo));
       setBackup(newBingo);
     },
     deleteSelectedBackup: (selectedBackup: any) => {
-      let remainingSlot = backup.filter(
+      const remainingSlot = backup.filter(
         (m: any) => m.date !== selectedBackup.date
       );
       setBackup(remainingSlot);

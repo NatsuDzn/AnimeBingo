@@ -49,7 +49,6 @@ function Filters({ ...props }: any) {
       icon: <ArrowsRandom size={16} />,
       color: "pink",
       disabled: value.mediaList.length === 0,
-
       action: () => {
         bingoMethods.sortMediaBy("random");
       },
