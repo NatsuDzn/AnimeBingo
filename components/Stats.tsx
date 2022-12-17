@@ -1,13 +1,16 @@
 import { Alert, Progress } from "@mantine/core";
+import { useMemo } from "react";
 import { InfoCircle } from "tabler-icons-react";
 import { useBingo } from "../context/state";
 
 function Stats() {
   const { value } = useBingo();
 
-  const markedAsDoneCount = value.mediaList.filter((s: any) => {
-    return s.isDone;
-  }).length;
+  const markedAsDoneCount = useMemo(() => {
+    return value.mediaList.filter((s: any) => {
+      return s.isDone;
+    }).length;
+  }, [value.mediaList]);
 
   const percentage: number = Number(
     ((markedAsDoneCount / value.mediaList.length) * 100).toFixed(1)
@@ -15,7 +18,7 @@ function Stats() {
 
   return (
     <>
-      {markedAsDoneCount > 0 && percentage !== NaN ? (
+      {percentage !== NaN ? (
         <Progress
           size="xl"
           radius="xl"

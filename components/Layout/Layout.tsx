@@ -20,6 +20,7 @@ import NavbarAccordion from "./Nav/NavbarAccordion";
 import SearchTitles from "./../Search";
 import { useBingo } from "../../context/state";
 import BackupRestore from "./Nav/Backup/BackupRestore";
+import { useRouter } from "next/router";
 
 const Layout = ({ children }: PropsWithChildren<{}>) => {
   const theme = useMantineTheme();
@@ -37,6 +38,9 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
     setIsSaving(false);
   };
 
+  const router = useRouter();
+  const { asPath } = router;
+
   return (
     <AppShell
       styles={{
@@ -51,57 +55,65 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
       asideOffsetBreakpoint="sm"
       fixed
       navbar={
-        <Navbar
-          p="md"
-          hiddenBreakpoint="sm"
-          hidden={!opened}
-          width={{ sm: 400, lg: 480 }}
-          // Not really a fix
-          sx={{ bottom: 0, height: "auto" }}
-        >
-          <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
-            <SearchTitles mb={20} />
-            <NavbarAccordion />
-          </Navbar.Section>
-          <Divider my="sm" label="Actions" labelPosition="center" />
-          <Navbar.Section>
-            <Anchor
-              align="right"
-              size="xs"
-              href="https://anilist.github.io/ApiV2-GraphQL-Docs/"
-              target="_blank"
-            >
-              Using AniList API
-            </Anchor>
-            <Group spacing="sm" style={{ marginTop: 6 }}>
-              <Button
-                style={{ flex: 1 }}
-                size="sm"
-                color="green"
-                variant={colorScheme === "dark" ? "light" : "filled"}
-                leftIcon={<Photo size={16} />}
-                loading={isSaving}
-                onClick={() => saveBingo()}
+        asPath !== "/versus" ? (
+          <Navbar
+            p="md"
+            hiddenBreakpoint="sm"
+            hidden={!opened}
+            width={{ sm: 400, lg: 480 }}
+            sx={{ bottom: 0, height: "auto" }}
+          >
+            <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
+              <SearchTitles mb={20} />
+              <NavbarAccordion />
+            </Navbar.Section>
+            <Divider my="sm" label="Actions" labelPosition="center" />
+            <Navbar.Section>
+              <Anchor
+                align="right"
+                size="xs"
+                href="https://anilist.github.io/ApiV2-GraphQL-Docs/"
+                target="_blank"
               >
-                Save bingo
-              </Button>
-              <Button
-                size="sm"
-                color="red"
-                variant={colorScheme === "dark" ? "light" : "filled"}
-                leftIcon={<Trash size={16} />}
-                onClick={() => bingoMethods.clearMediaList()}
-              >
-                Clear
-              </Button>
-            </Group>
-            <BackupRestore />
-          </Navbar.Section>
-        </Navbar>
+                Using AniList API
+              </Anchor>
+              <Group spacing="sm" style={{ marginTop: 6 }}>
+                <Button
+                  style={{ flex: 1 }}
+                  size="sm"
+                  color="green"
+                  variant={colorScheme === "dark" ? "light" : "filled"}
+                  leftIcon={<Photo size={16} />}
+                  loading={isSaving}
+                  onClick={() => saveBingo()}
+                >
+                  Save bingo
+                </Button>
+                <Button
+                  size="sm"
+                  color="red"
+                  variant={colorScheme === "dark" ? "light" : "filled"}
+                  leftIcon={<Trash size={16} />}
+                  onClick={() => bingoMethods.clearMediaList()}
+                >
+                  Clear
+                </Button>
+              </Group>
+              <BackupRestore />
+            </Navbar.Section>
+          </Navbar>
+        ) : undefined
       }
       header={
-        <Header height={60} p="md">
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Header height={60} px="md">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              height: "100%",
+              alignItems: "center"
+            }}
+          >
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
               <Burger
                 opened={opened}
@@ -113,6 +125,7 @@ const Layout = ({ children }: PropsWithChildren<{}>) => {
             </MediaQuery>
             <NavbarHeading
               toggleColorScheme={toggleColorScheme}
+              currentPath={asPath}
               title="Anime bingo"
             />
           </div>

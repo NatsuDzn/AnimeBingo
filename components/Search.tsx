@@ -20,7 +20,7 @@ function SearchTitles({ ...props }) {
   const [results, setResults] = useState<any>(null);
   const { colorScheme } = useMantineColorScheme();
   const viewport = useRef<any>();
-  const { bingoMethods } = useBingo();
+  const { bingoMethods, value } = useBingo();
 
   const form = useForm({
     initialValues: {
@@ -35,7 +35,7 @@ function SearchTitles({ ...props }) {
 
   const search = async (values: any) => {
     setIsLoading(true);
-    setResults(await bingoMethods.searchMedia(values.search, values.category));  
+    setResults(await bingoMethods.searchMedia(values.search, values.category));
     setIsLoading(false);
     scrollToTop();
   };
@@ -138,7 +138,14 @@ function SearchTitles({ ...props }) {
           >
             <Group>
               {results.map((item: any) => (
-                <Card key={item.id} content={item} />
+                <Card
+                  key={item.id}
+                  content={item}
+                  isIncluded={value.mediaList.some(
+                    (media: any) => media.id === item.id
+                  )}
+                  onCardClick={(media: any) => bingoMethods.pushMedia(media)}
+                />
               ))}
             </Group>
           </ScrollArea>

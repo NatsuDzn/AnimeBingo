@@ -9,17 +9,10 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { Checkbox } from "tabler-icons-react";
-import { useBingo } from "../context/state";
 
-function Card({ content, ...props }: any) {
+function Card({ content, isIncluded ,onCardClick, ...props }: any) {  
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
-  const { value, bingoMethods } = useBingo();
-
-  // Check if content is present in value medialist array using the id
-  const isIncluded = value.mediaList.some(
-    (media: any) => media.id === content.id
-  );
 
   const isMedia = content.type === "ANIME" || content.type === "MANGA";
   return (
@@ -36,7 +29,7 @@ function Card({ content, ...props }: any) {
         transition: "all 0.15s ease-in-out",
         cursor: "pointer",
       }}
-      onClick={() => bingoMethods.pushMedia(content)}
+      onClick={() => onCardClick(content)}
     >
       <Group align="start" noWrap>
         <Image
